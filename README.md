@@ -1,2 +1,2 @@
 # FullStackOpen2021
-Full Stack Open course
+Full Stack Open Course
