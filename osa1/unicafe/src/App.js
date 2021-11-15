@@ -20,22 +20,55 @@ const Button = ({ handleClick, text }) => {
   )
 }
 
+const Average = ({ text, total, all }) => {
+  const calculated = function(total, all) {
+    if (all === 0) {
+      return 0
+    }
+    return total / all
+  }
+
+  return (
+    <Display text={text} value={calculated(total,all)} />
+  )
+}
+
+const Positive = ({ text, positive, all }) => {
+  const calculated = function(positive, all) {
+    if (all === 0) {
+      return 0
+    }
+    return positive / all * 100
+  }
+
+  return (
+    <Display text={text} value={calculated(positive,all)} />
+  )
+}
 const App = () => {
   // tallenna napit omaan tilaansa
   const [good, setGood] = useState(0)
   const [neutral, setNeutral] = useState(0)
   const [bad, setBad] = useState(0)
+  const [all, setAll] = useState(0)
+
+  const updateAllValue = () => {
+    setAll(all + 1)
+  }
 
   const handleGoodClick = () => {
     setGood(good + 1)
+    updateAllValue()
   }
 
   const handleNeutralClick = () => {
     setNeutral(neutral + 1)
+    updateAllValue()
   }
 
   const handleBadClick = () => {
     setBad(bad + 1)
+    updateAllValue()
   }
 
   return (
@@ -48,6 +81,9 @@ const App = () => {
       <Display text="good" value={good} />
       <Display text="neutral" value={neutral} />
       <Display text="bad" value={bad} />
+      <Display text="all" value={all} />
+      <Average text="average" total={good + (-1 * bad)} all={all} />
+      <Positive text="positive" positive={good} all={all} />
     </div>
   )
 }
