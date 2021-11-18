@@ -47,6 +47,15 @@ const Positive = ({ text, positive, all }) => {
 }
 
 const Statistics = ({ good,bad,neutral,all }) => {
+  if (all === 0) {
+    return(
+      <div>
+        <Header header="statistics" />
+        <p>No feedback given</p>
+      </div>
+    )
+  }
+
   return (
     <div>
       <Header header="statistics" />
