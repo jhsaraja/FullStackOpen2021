@@ -45,6 +45,22 @@ const Positive = ({ text, positive, all }) => {
     <Display text={text} value={calculated(positive,all)} />
   )
 }
+
+const Statistics = ({ good,bad,neutral,all }) => {
+  return (
+    <div>
+      <Header header="statistics" />
+      <Display text="good" value={good} />
+      <Display text="neutral" value={neutral} />
+      <Display text="bad" value={bad} />
+      <Display text="all" value={all} />
+      <Average text="average" total={good + (-1 * bad)} all={all} />
+      <Positive text="positive" positive={good} all={all} />
+    </div>
+  )
+}
+
+
 const App = () => {
   // tallenna napit omaan tilaansa
   const [good, setGood] = useState(0)
@@ -77,13 +93,7 @@ const App = () => {
       <Button handleClick={handleGoodClick} text='good' />
       <Button handleClick={handleNeutralClick} text='neutral' />
       <Button handleClick={handleBadClick} text='bad' />
-      <Header header="statistics" />
-      <Display text="good" value={good} />
-      <Display text="neutral" value={neutral} />
-      <Display text="bad" value={bad} />
-      <Display text="all" value={all} />
-      <Average text="average" total={good + (-1 * bad)} all={all} />
-      <Positive text="positive" positive={good} all={all} />
+      <Statistics good={good} neutral={neutral} bad={bad} all={all} />
     </div>
   )
 }
