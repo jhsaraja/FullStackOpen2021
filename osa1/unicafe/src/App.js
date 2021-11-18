@@ -6,12 +6,6 @@ const Header = ({ header }) => {
   )
 }
 
-const Display = ({ text, value }) => {
-  return (
-    <p>{text} {value}</p>
-  )
-}
-
 const Button = ({ handleClick, text }) => {
   return (
     <button onClick={handleClick}>
@@ -20,33 +14,31 @@ const Button = ({ handleClick, text }) => {
   )
 }
 
-const Average = ({ text, total, all }) => {
-  const calculated = function(total, all) {
-    if (all === 0) {
-      return 0
-    }
-    return total / all
-  }
-
+const StatisticLine = ({ text, value }) => {
+  
   return (
-    <Display text={text} value={calculated(total,all)} />
+    <p>{text} {value}</p>
   )
 }
 
-const Positive = ({ text, positive, all }) => {
-  const calculated = function(positive, all) {
+const Statistics = ({ good,bad,neutral,all }) => {
+
+  const average = function(good, bad, all) {
+    if (all === 0) {
+      return 0
+    }
+
+    let total = good + (-1 * bad)
+    return total / all
+  }
+
+  const positive = function(positive, all) {
     if (all === 0) {
       return 0
     }
     return positive / all * 100
   }
 
-  return (
-    <Display text={text} value={calculated(positive,all)} />
-  )
-}
-
-const Statistics = ({ good,bad,neutral,all }) => {
   if (all === 0) {
     return(
       <div>
@@ -59,12 +51,12 @@ const Statistics = ({ good,bad,neutral,all }) => {
   return (
     <div>
       <Header header="statistics" />
-      <Display text="good" value={good} />
-      <Display text="neutral" value={neutral} />
-      <Display text="bad" value={bad} />
-      <Display text="all" value={all} />
-      <Average text="average" total={good + (-1 * bad)} all={all} />
-      <Positive text="positive" positive={good} all={all} />
+      <StatisticLine text="good" value={good} />
+      <StatisticLine text="neutral" value={neutral} />
+      <StatisticLine text="bad" value={bad} />
+      <StatisticLine text="all" value={all} />
+      <StatisticLine text="average" value={average(good,bad,all)} />
+      <StatisticLine text="positive" value={positive(good,all)} />
     </div>
   )
 }
