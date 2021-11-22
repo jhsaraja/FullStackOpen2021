@@ -20,6 +20,7 @@ const App = () => {
   ]
    
   const [selected, setSelected] = useState(0)
+  const [votes, setVotes] = useState(Array(7).fill(0)) //[0,0,0,0,0,0,0])
 
   const getAnecdotesClick = () => {
     // Get a random integer from 0 to 6:
@@ -27,9 +28,21 @@ const App = () => {
     setSelected(randomNumber) 
   }
 
+  const handleVoteClick = () => {
+    console.log(selected)
+
+    // tilan päivittäminen kuuluu tehdä kopioimalla taulukko, ei muokkaamalla olemassa olevaa taulukkoa
+    const copy = [...votes]
+    copy[selected] += 1
+    setVotes(copy)
+    console.log(copy)
+  }
+
   return (
     <div>
       <p>{anecdotes[selected]}</p>
+      <p>has {votes[selected]} votes</p>
+      <Button handleClick={handleVoteClick} text='vote' />
       <Button handleClick={getAnecdotesClick} text='next anecdote' />
     </div>
   )
