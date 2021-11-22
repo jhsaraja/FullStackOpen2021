@@ -8,6 +8,31 @@ const Button = ({ handleClick, text }) => {
   )
 }
 
+const Header = ({ header }) => {
+  return (
+    <h1>{header}</h1>
+  )
+}
+
+const Votes = ({ votes }) => {
+  return (
+    <p>has {votes} votes</p>
+  )
+}
+
+const MostVotes = ({ votes, anecdotes }) => {
+  const max_index = votes.indexOf(Math.max.apply(null,votes))
+  console.log("Index of max votes ",max_index)
+
+  return (
+    <div>
+      <Header header="Anecdote with most votes"/>
+      <p>{anecdotes[max_index]}</p>
+      <p>has {votes[max_index]} votes</p>
+    </div>
+  )
+}
+
 const App = () => {
   const anecdotes = [
     'If it hurts, do it more often.',
@@ -40,10 +65,12 @@ const App = () => {
 
   return (
     <div>
+      <Header header="Anecdote of the day"/>
       <p>{anecdotes[selected]}</p>
-      <p>has {votes[selected]} votes</p>
+      <Votes votes={votes[selected]} />
       <Button handleClick={handleVoteClick} text='vote' />
       <Button handleClick={getAnecdotesClick} text='next anecdote' />
+      <MostVotes votes={votes} anecdotes={anecdotes} />
     </div>
   )
 }
