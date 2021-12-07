@@ -1,31 +1,27 @@
 import React from 'react'
 
 // Component for header
-const Header = (props) => {
-  console.log("Header props: ",props)
+const Header = ({ course }) => {
+  console.log("Header props: ",course)
   return (
-    <h1>{props.course.name}</h1>
+    <h1>{course.name}</h1>
   )
 }
 
 // Component for part
-const Part = (props) => {
+const Part = ({ part }) => {
   return (
     <p>
-      {props.part.name} {props.part.exercises}  
+      {part.name} {part.exercises}  
     </p>
   )
 }
 
 // Component for content
-const Content = (props) => {
-
-  //const result = props.parts.map(note => note.name)
-  //console.log(result)
-
+const Content = ({ parts }) => {
   return (
     <div>
-      {props.parts.map(part =>           
+      {parts.map(part =>           
         <Part key={part.id} part={part} />        
       )}
     </div>
@@ -33,19 +29,19 @@ const Content = (props) => {
 }
 
 // Component for total exercises
-const Total = (props) => {
+const Total = ({ parts }) => {
   return (
-    <p>Total of exercises {props.parts.map(part => part.exercises).reduce((total, exercises) => total + exercises)}</p>
+    <p>Total of exercises {parts.map(part => part.exercises).reduce((total, exercises) => total + exercises)}</p>
   )
 }
   
-const Course = (props) => {
-  console.log("Course props: ",props)
+const Course = ({ course }) => {
+  console.log("Course props: ",course)
   return (
     <div>
-      <Header course={props.course} />
-      <Content parts={props.course.parts} />
-      <Total parts={props.course.parts} />
+      <Header course={course} />
+      <Content parts={course.parts} />
+      <Total parts={course.parts} />
     </div>
   )
 }
