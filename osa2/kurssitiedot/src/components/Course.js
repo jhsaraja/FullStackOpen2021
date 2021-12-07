@@ -31,6 +31,13 @@ const Content = (props) => {
     </div>
   )
 }
+
+// Component for total exercises
+const Total = (props) => {
+  return (
+    <p>Total of exercises {props.parts.map(part => part.exercises).reduce((total, exercises) => total + exercises)}</p>
+  )
+}
   
 const Course = (props) => {
   console.log("Course props: ",props)
@@ -38,6 +45,7 @@ const Course = (props) => {
     <div>
       <Header course={props.course} />
       <Content parts={props.course.parts} />
+      <Total parts={props.course.parts} />
     </div>
   )
 }
