@@ -10,6 +10,15 @@ const App = () => {
   const addPerson = (event) => {    
     event.preventDefault()   
     console.log('Add button clicked', event.target)  
+
+    let pos = persons.findIndex(person => person.name === newName);
+    console.log("Is in array already: ",pos)
+
+    if (pos > -1) {
+      alert(`${newName} is already added to phonebook`)
+      return;
+    }
+
     const personObject = { 
       name: newName,
     } 
