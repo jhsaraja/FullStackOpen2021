@@ -5,8 +5,6 @@ import Filter from './components/Filter'
 
 const App = () => {
   const [countries, setCountries] = useState([]) 
- /* const [newName, setNewName] = useState('')
-  const [newNumber, setNewNumber] = useState('')*/
   const [newSearchString, setNewSearchString] = useState('') 
 
   const hook = () => {
@@ -41,6 +39,7 @@ const App = () => {
       <Countries 
         key="Countries" 
         countriesToShow={countriesToShow}
+        showCountry={setNewSearchString}
       />
     </div>
   )

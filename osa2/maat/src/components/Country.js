@@ -1,6 +1,10 @@
 import React from 'react' 
 
-const Country = ({ country, extraData }) => {
+const Country = ({ country, extraData, showCountry }) => {
+  function showCountryData() {
+    showCountry(country.name.common)
+  }
+
   if (extraData) {
     const languages = country.languages
     console.log("languages",languages)
@@ -25,7 +29,10 @@ const Country = ({ country, extraData }) => {
     )
   } else {
     return (
-      <p>{country.name.common}</p>
+      <p>
+        {country.name.common} 
+        <button onClick={showCountryData}>Show</button>
+      </p>
     )
   }
 }

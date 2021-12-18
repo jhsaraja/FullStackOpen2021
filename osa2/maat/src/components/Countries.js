@@ -1,7 +1,7 @@
 import React from 'react' 
 import Country from './Country'
 
-const Countries = ({ countriesToShow }) => {
+const Countries = ({ countriesToShow, showCountry }) => {
   console.log("countriesToShow: ",countriesToShow)
   console.log("Count: ",countriesToShow.length)
 
@@ -15,7 +15,7 @@ const Countries = ({ countriesToShow }) => {
     return (
       <div>
         {countriesToShow.map(country =>          
-          <Country key={country.cca3} country={country} />
+          <Country key={country.cca3} country={country} showCountry={showCountry} />
         )}
       </div>
     ) 
