@@ -1,9 +1,26 @@
-import React from 'react' 
+import React, { useState, useEffect } from 'react' 
+import axios from 'axios'
 
 const Country = ({ country, extraData, showCountry }) => {
+  const [weather, setWeather] = useState('') 
+
   function showCountryData() {
     showCountry(country.name.common)
   }
+
+  const hook = () => {
+    console.log('effect')
+    const url = "http://api.weatherstack.com/current?access_key="+process.env.REACT_APP_API_KEY+"&query="+country.capital[0];
+    axios
+      .get(url)
+      .then(response => {
+        console.log('promise fulfilled')
+        console.log(response.data)
+        setWeather(response.data)
+      })
+  }
+  useEffect(hook, [])
+  console.log("weather",weather)
 
   if (extraData) {
     const languages = country.languages
@@ -24,7 +41,10 @@ const Country = ({ country, extraData, showCountry }) => {
         </ul> 
         <p>
           <img src={country.flags.png} alt="Flag" />
-        </p>   
+        </p> 
+        <h2>Weather in {country.capital[0]}</h2>  
+        <p>Temperature: {weather.current.temperature} Celcius</p>
+        <p>Wind: {weather.current.wind_speed} mph direction {weather.current.wind_dir}</p>
       </div>
     )
   } else {
