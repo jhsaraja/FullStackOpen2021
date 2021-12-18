@@ -44,6 +44,9 @@ const Country = ({ country, extraData, showCountry }) => {
         </p> 
         <h2>Weather in {country.capital[0]}</h2>  
         <p>Temperature: {weather.current.temperature} Celcius</p>
+        <p>
+          <img src={weather.current.weather_icons[0]} alt="Weather icon"/>
+        </p>
         <p>Wind: {weather.current.wind_speed} mph direction {weather.current.wind_dir}</p>
       </div>
     )
