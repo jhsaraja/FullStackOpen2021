@@ -14,8 +14,8 @@ const App = () => {
   useEffect(() => {
     personService
       .getAll()
-        .then(initialNotes => {        
-          setPersons(initialNotes)      
+        .then(initialPersons => {        
+          setPersons(initialPersons)      
         }) 
   }, [])
   console.log('render', persons.length, 'persons')
@@ -61,6 +61,22 @@ const App = () => {
     setNewSearchString(event.target.value)  
   }
 
+  const deletePerson = (id) => {
+    console.log(`Remove object with id ${id}`)
+    const person = persons.find(person => person.id === id)
+
+    const result = window.confirm(`Delete ${person.name}`);
+    console.log(result)
+
+    if (result === true) {
+      personService
+        .remove(id)
+          .then(() => {   
+            setPersons(persons.filter(person => person.id !== id))    
+          })  
+    }
+  }
+
   const personsToShow = newSearchString    
   ? persons.filter(person => person.name.toLowerCase().includes(newSearchString.toLowerCase()))    
   : persons
@@ -86,6 +102,7 @@ const App = () => {
       <Persons 
         key="Persons" 
         personsToShow={personsToShow}
+        deletePerson={deletePerson}
       />
     </div>
   )
