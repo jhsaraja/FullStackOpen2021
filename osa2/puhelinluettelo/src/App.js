@@ -3,6 +3,7 @@ import axios from 'axios'
 import Persons from './components/Persons'
 import Filter from './components/Filter'
 import PersonForm from './components/PersonForm'
+import personService from './services/persons'
 
 const App = () => {
   const [persons, setPersons] = useState([]) 
@@ -10,16 +11,13 @@ const App = () => {
   const [newNumber, setNewNumber] = useState('')
   const [newSearchString, setNewSearchString] = useState('')
 
-  const hook = () => {
-    console.log('effect')
-    axios
-      .get('http://localhost:3001/persons')
-      .then(response => {
-        console.log('promise fulfilled')
-        setPersons(response.data)
-      })
-  }
-  useEffect(hook, [])
+  useEffect(() => {
+    personService
+      .getAll()
+        .then(initialNotes => {        
+          setPersons(initialNotes)      
+        }) 
+  }, [])
   console.log('render', persons.length, 'persons')
 
   const addPerson = (event) => {    
@@ -39,14 +37,13 @@ const App = () => {
       number: newNumber,
     } 
     
-    axios    
-      .post('http://localhost:3001/persons', personObject)    
-      .then(response => {      
-        console.log(response)    
-        setPersons(persons.concat(response.data))  
-        setNewName('') // clean input field
-        setNewNumber('') // clean input field
-      })
+    personService
+      .create(personObject)
+        .then(returnedPerson => {        
+          setPersons(persons.concat(returnedPerson))  
+          setNewName('') 
+          setNewNumber('') 
+    })
   }
 
   const handleNameChange = (event) => {    
