@@ -24,12 +24,27 @@ const App = () => {
     event.preventDefault()   
     console.log('Add button clicked', event.target)  
 
-    let pos = persons.findIndex(person => person.name === newName);
-    console.log("Is in array already: ",pos)
+    //let pos = persons.findIndex(person => person.name === newName);
+    const currentPerson = persons.filter(person => person.name === newName);
+    console.log("Is in array already: ",currentPerson)
 
-    if (pos > -1) {
-      alert(`${newName} is already added to phonebook`)
-      return;
+    if (currentPerson.length > 0) {
+      const result = window.confirm(`${newName} is already added to phonebook, replace the old number with a new one?`)
+
+      if (result === true) {
+        console.log("Update old object")
+        const oldId = currentPerson[0].id
+        const changedNote = { ...currentPerson[0], number: newNumber }
+
+        personService
+          .update(oldId, changedNote)
+            .then(returnedPerson => {        
+              setPersons(persons.map(person => person.id !== oldId ? person : returnedPerson))      
+            }) 
+        return
+      } else {
+        return
+      }
     }
 
     const personObject = { 
