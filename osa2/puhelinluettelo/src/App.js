@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from 'react'
-import axios from 'axios'
 import Persons from './components/Persons'
 import Filter from './components/Filter'
 import PersonForm from './components/PersonForm'
+import Notification from './components/Notification'
 import personService from './services/persons'
 
 const App = () => {
@@ -10,6 +10,8 @@ const App = () => {
   const [newName, setNewName] = useState('')
   const [newNumber, setNewNumber] = useState('')
   const [newSearchString, setNewSearchString] = useState('')
+  const [notificationMessage, setNotificationMessage] = useState('')
+  const [notificationType, setNotificationType] = useState('')
 
   useEffect(() => {
     personService
@@ -39,7 +41,14 @@ const App = () => {
         personService
           .update(oldId, changedNote)
             .then(returnedPerson => {        
-              setPersons(persons.map(person => person.id !== oldId ? person : returnedPerson))      
+              setPersons(persons.map(person => person.id !== oldId ? person : returnedPerson))   
+              setNotificationType("notification")  
+              setNotificationMessage(          
+                `Updated ${returnedPerson.name}`        
+              )   
+              setTimeout(() => {          
+                setNotificationMessage(null)        
+              }, 5000)  
             }) 
         return
       } else {
@@ -58,6 +67,13 @@ const App = () => {
           setPersons(persons.concat(returnedPerson))  
           setNewName('') 
           setNewNumber('') 
+          setNotificationType("notification")  
+          setNotificationMessage(          
+            `Added ${returnedPerson.name}`        
+          )  
+          setTimeout(() => {          
+            setNotificationMessage(null)        
+          }, 5000)  
     })
   }
 
@@ -87,7 +103,16 @@ const App = () => {
       personService
         .remove(id)
           .then(() => {   
+            const removedPerson = persons.filter(person => person.id === id)
+            console.log(removedPerson)
             setPersons(persons.filter(person => person.id !== id))    
+            setNotificationType("notification")  
+            setNotificationMessage(          
+              `Deleted ${removedPerson[0].name}`        
+            )  
+            setTimeout(() => {          
+              setNotificationMessage(null)        
+            }, 5000) 
           })  
     }
   }
@@ -99,6 +124,7 @@ const App = () => {
   return (
     <div>
       <h2>Phonebook</h2>
+      <Notification message={notificationMessage} className={notificationType} />
       <Filter 
         key="SearchFilter" 
         newSearchString={newSearchString} 
