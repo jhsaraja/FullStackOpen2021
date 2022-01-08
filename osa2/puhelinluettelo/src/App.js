@@ -22,6 +22,17 @@ const App = () => {
   }, [])
   console.log('render', persons.length, 'persons')
 
+  const showError = (person) => {
+    console.log("Error, failed to update object with id ",person.id) 
+    setNotificationType("error")  
+    setNotificationMessage(          
+      `Information of ${person.name} was already removed from server`        
+    )        
+    setTimeout(() => {          
+      setNotificationMessage(null)        
+    }, 5000)   
+  }
+
   const addPerson = (event) => {    
     event.preventDefault()   
     console.log('Add button clicked', event.target)  
@@ -36,10 +47,10 @@ const App = () => {
       if (result === true) {
         console.log("Update old object")
         const oldId = currentPerson[0].id
-        const changedNote = { ...currentPerson[0], number: newNumber }
+        const changedPerson = { ...currentPerson[0], number: newNumber }
 
         personService
-          .update(oldId, changedNote)
+          .update(oldId, changedPerson)
             .then(returnedPerson => {        
               setPersons(persons.map(person => person.id !== oldId ? person : returnedPerson))   
               setNotificationType("notification")  
@@ -50,7 +61,12 @@ const App = () => {
                 setNotificationMessage(null)        
               }, 5000)  
             }) 
+          .catch(error => {    
+            showError(changedPerson)  
+          })
+
         return
+
       } else {
         return
       }
